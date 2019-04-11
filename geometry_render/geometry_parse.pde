@@ -19,21 +19,25 @@ class GeometryParser {
   
   private void parseLine(String line) {
     String[] parts = split(line, ' ');
-    if(parts.length <= 0) {
+    if(parts.length <= 0 || parts[0].length() <= 0) {
       return;
     }
     
-    switch(parts[0]){
-      case "#":
+    switch(parts[0].charAt(0)){
+      case ' ':
+      case '\t':
+      case '\r':
+      case '\n': break;
+      case '#':
         break;
-      case "r":
+      case 'r':
         parseRect(parts);
         break;
-      case "e":
+      case 'e':
         parseEllipse(parts);
         break;
       default:
-        println("[warn] unknown command at line", line);
+        println("[warn] unknown command at line", line, parts[0]);
         errored = true;
         break;
     }
